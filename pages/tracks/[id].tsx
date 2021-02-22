@@ -18,8 +18,8 @@ interface TrackPageProps {
 const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
   const history = useRouter();
   const [track, setTrack] = useState<ITrack>(serverTrack);
-  const username = useInput();
-  const text = useInput();
+  const username = useInput('');
+  const text = useInput('');
 
   const handleSendComment = async () => {
     const formData = new FormData();
@@ -32,7 +32,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
         {
           username: username.value,
           text: text.value,
-          trackId: track._id,
+          trackId: track._id
         }
       );
       setTrack({ ...track, comments: [...track.comments, response.data] });
@@ -127,7 +127,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
   return {
     props: {
-      serverTrack: response.data,
-    },
+      serverTrack: response.data
+    }
   };
 };

@@ -14,9 +14,9 @@ const Create: React.FC<CreateProps> = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [picture, setPicture] = useState<object | null>(null);
   const [audio, setAudio] = useState<object | null>(null);
-  const name = useInput();
-  const artist = useInput();
-  const text = useInput();
+  const name = useInput('');
+  const artist = useInput('');
+  const text = useInput('');
   const router = useRouter();
 
   const handleBack = () => setActiveStep((prev) => prev - 1);
