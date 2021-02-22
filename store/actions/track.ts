@@ -7,7 +7,7 @@ import { TrackAction, TrackActionTypes } from '../../types/track';
 const apiHost = process.env.API_HOST;
 
 export const fetchTracks: ActionCreator<
-  ThunkAction<Promise<Action>, TrackAction, AnyAction>
+  ThunkAction<Promise<Action>, TrackAction, void, AnyAction>
 > = () => async (dispatch: Dispatch<TrackAction>): Promise<Action> => {
   try {
     const response = await axios.get(`${apiHost}/tracks`);
