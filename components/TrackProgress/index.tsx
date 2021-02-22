@@ -52,6 +52,9 @@ const TrackProgress: React.FC<TrackProgressProps> = ({
   showProgressTime = true,
   onChange,
 }) => {
+  const handleChange = (e: React.MouseEvent<HTMLInputElement>) =>
+    onChange(e.target.value);
+
   return (
     <div className={styles.trackProgressContainer}>
       <PrettoSlider
@@ -61,7 +64,7 @@ const TrackProgress: React.FC<TrackProgressProps> = ({
         min={0}
         max={right}
         value={left}
-        onChange={onChange}
+        onChange={handleChange}
         disabled={disabled}
       />
       {showProgressTime && (
