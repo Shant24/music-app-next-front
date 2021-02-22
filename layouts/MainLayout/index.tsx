@@ -9,13 +9,14 @@ interface MainLayoutProps {
   title?: string;
   description?: string;
   keywords?: string;
+  children?: React.ReactChild | React.ReactChild[];
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({
   children,
   title,
   description,
-  keywords,
+  keywords
 }) => {
   const [windowHeight, setWindowHeight] = useState<number>(0);
 

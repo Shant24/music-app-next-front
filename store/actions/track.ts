@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Dispatch } from 'redux';
 
 import { TrackAction, TrackActionTypes } from '../../types/track';
 
@@ -11,7 +12,7 @@ export const fetchTracks = () => async (dispatch: Dispatch<TrackAction>) => {
   } catch (e) {
     dispatch({
       type: TrackActionTypes.FETCH_TRACKS_ERROR,
-      payload: 'An error occurred while downloading tracks!',
+      payload: 'An error occurred while downloading tracks!'
     });
   }
 };
@@ -25,7 +26,7 @@ export const searchTracks = (query: string) => async (
   } catch (e) {
     dispatch({
       type: TrackActionTypes.FETCH_TRACKS_ERROR,
-      payload: 'An error occurred while downloading tracks!',
+      payload: 'An error occurred while downloading tracks!'
     });
   }
 };

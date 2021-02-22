@@ -5,7 +5,7 @@ import {
   Grid,
   Step,
   StepLabel,
-  Stepper,
+  Stepper
 } from '@material-ui/core';
 
 import styles from './styles.module.scss';
@@ -14,6 +14,7 @@ const steps = ['Track Information', 'Upload Photo', 'Upload Audio'];
 
 interface StepWrapperProps {
   activeStep: number;
+  children?: React.ReactChild | React.ReactChild[];
 }
 
 const StepWrapper: React.FC<StepWrapperProps> = ({ activeStep, children }) => {

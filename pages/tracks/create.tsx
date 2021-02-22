@@ -10,28 +10,29 @@ import MainLayout from '../../layouts/MainLayout';
 import StepWrapper from '../../components/StepWrapper';
 import FileUpload from '../../components/FileUpload';
 
-const Create: React.FC<CreateProps> = () => {
+const Create: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [picture, setPicture] = useState<object | null>(null);
-  const [audio, setAudio] = useState<object | null>(null);
-  const name = useInput();
-  const artist = useInput();
-  const text = useInput();
+  const [picture, setPicture] = useState<{ name: string } | null>(null);
+  const [audio, setAudio] = useState<{ name: string } | null>(null);
+  const name = useInput('');
+  const artist = useInput('');
+  const text = useInput('');
   const router = useRouter();
 
   const handleBack = () => setActiveStep((prev) => prev - 1);
   const handleNext = () => setActiveStep((prev) => prev + 1);
 
   const handleFinish = () => {
-    const formData = new FormData();
-    formData.append('name', name.value);
-    formData.append('artist', artist.value);
-    formData.append('text', text.value);
-    formData.append('picture', picture);
-    formData.append('audio', audio);
+    const body = {
+      name: name.value,
+      artist: artist.value,
+      text: text.value,
+      picture,
+      audio
+    };
 
     axios
-      .post(`${process.env.API_HOST}/tracks`, formData)
+      .post(`${process.env.API_HOST}/tracks`, body)
       .then((response) => router.push('/tracks'))
       .catch((err) => console.log(err));
   };

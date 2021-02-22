@@ -1,11 +1,11 @@
-import { AnyAction, applyMiddleware, createStore } from 'redux';
+import { AnyAction, applyMiddleware, createStore, Dispatch } from 'redux';
 import { Context, createWrapper, MakeStore } from 'next-redux-wrapper';
 import { reducer, RootState } from './reducers/index';
 
 // Middlewares
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
-import thunk, { ThunkDispatch } from 'redux-thunk';
+import thunk, { ThunkDispatch, ThunkAction } from 'redux-thunk';
 // import createSagaMiddleware from 'redux-saga';
 
 const middlewaresArr = [thunk];

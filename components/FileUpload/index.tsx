@@ -4,12 +4,13 @@ import styles from './styles.module.scss';
 interface FileUploadProps {
   setFile: Function;
   accept: string;
+  children?: React.ReactChild | React.ReactChild[];
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
   setFile,
   accept,
-  children,
+  children
 }) => {
   const defaultInputRef = useRef<HTMLInputElement>(null);
 

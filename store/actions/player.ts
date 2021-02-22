@@ -1,28 +1,39 @@
+import { Action, ActionCreator } from 'redux';
 import { PlayerAction, PlayerActionTypes } from './../../types/player';
 import { ITrack } from './../../types/track';
 
-export const playTrack = (): PlayerAction => ({ type: PlayerActionTypes.PLAY });
-
-export const pauseTrack = (): PlayerAction => ({
-  type: PlayerActionTypes.PAUSE,
+export const playTrack: ActionCreator<Action> = (): PlayerAction => ({
+  type: PlayerActionTypes.PLAY
 });
 
-export const setDuration = (payload: number): PlayerAction => ({
+export const pauseTrack: ActionCreator<Action> = (): PlayerAction => ({
+  type: PlayerActionTypes.PAUSE
+});
+
+export const setDuration: ActionCreator<Action> = (
+  payload: number
+): PlayerAction => ({
   type: PlayerActionTypes.SET_DURATION,
-  payload,
+  payload
 });
 
-export const setVolume = (payload: number): PlayerAction => ({
+export const setVolume: ActionCreator<Action> = (
+  payload: number
+): PlayerAction => ({
   type: PlayerActionTypes.SET_VOLUME,
-  payload,
+  payload
 });
 
-export const setCurrentTime = (payload: number): PlayerAction => ({
+export const setCurrentTime: ActionCreator<Action> = (
+  payload: number
+): PlayerAction => ({
   type: PlayerActionTypes.SET_CURRENT_TIME,
-  payload,
+  payload
 });
 
-export const setActiveTrack = (payload: ITrack): PlayerAction => ({
+export const setActiveTrack: ActionCreator<Action> = (
+  payload: ITrack
+): PlayerAction => ({
   type: PlayerActionTypes.SET_ACTIVE,
-  payload,
+  payload
 });
