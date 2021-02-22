@@ -1,0 +1,45 @@
+.track {
+  margin: 20px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+
+  .photoWrapper {
+    margin-left: 20px;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    overflow: hidden;
+
+    img {
+      max-height: 100%;
+      object-fit: contain;
+    }
+  }
+
+  .trackName {
+    margin: 0 20px;
+    width: 300px;
+
+    div {
+      &:last-child {
+        font-size: 12px;
+        color: gray;
+      }
+    }
+  }
+
+  .trackTime {
+    margin-right: 20px;
+    flex: auto;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .trackDeleteBtn {
+    margin-left: auto;
+  }
+}
