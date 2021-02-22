@@ -61,14 +61,14 @@ const Player: React.FC = () => {
     }
   };
 
-  const handleChangeVolume = (e: React.MouseEvent<HTMLInputElement>) => {
-    audio.volume = Number(e.target.value) / 100;
-    setVolume(Number(e.target.value));
+  const handleChangeVolume = (value: string) => {
+    audio.volume = Number(value) / 100;
+    setVolume(Number(value));
   };
 
-  const handleChangeCurrentTime = (e: React.MouseEvent<HTMLInputElement>) => {
-    audio.currentTime = Number(e.target.value);
-    setCurrentTime(Number(e.target.value));
+  const handleChangeCurrentTime = (value: string) => {
+    audio.currentTime = Number(value);
+    setCurrentTime(Number(value));
   };
 
   return (
