@@ -52,6 +52,8 @@ const TrackProgress: React.FC<TrackProgressProps> = ({
   showProgressTime = true,
   onChange,
 }) => {
+  const handleChange = onChange;
+
   return (
     <div className={styles.trackProgressContainer}>
       {/* <input
@@ -69,7 +71,7 @@ const TrackProgress: React.FC<TrackProgressProps> = ({
         min={0}
         max={right}
         value={left}
-        onChange={onChange}
+        onChange={handleChange}
         disabled={disabled}
       />
       {showProgressTime && (
