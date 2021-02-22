@@ -23,16 +23,15 @@ const Create: React.FC = () => {
   const handleNext = () => setActiveStep((prev) => prev + 1);
 
   const handleFinish = () => {
-    const body = {
-      name: name.value,
-      artist: artist.value,
-      text: text.value,
-      picture,
-      audio
-    };
+    const formData = new FormData();
+    formData.append('name', name.value);
+    formData.append('artist', artist.value);
+    formData.append('text', text.value);
+    formData.append('picture', picture);
+    formData.append('audio', audio);
 
     axios
-      .post(`${process.env.API_HOST}/tracks`, body)
+      .post(`${process.env.API_HOST}/tracks`, formData)
       .then((response) => router.push('/tracks'))
       .catch((err) => console.log(err));
   };
