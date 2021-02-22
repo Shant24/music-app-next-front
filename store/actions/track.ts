@@ -2,13 +2,12 @@ import { AnyAction, Action, ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
 
-import { RootState } from './../reducers/index';
 import { TrackAction, TrackActionTypes } from '../../types/track';
 
 const apiHost = process.env.API_HOST;
 
 export const fetchTracks: ActionCreator<
-  ThunkAction<Action, RootState, void, AnyAction>
+  ThunkAction<Promise<Action>, TrackAction, AnyAction>
 > = () => async (dispatch: Dispatch<TrackAction>): Promise<Action> => {
   try {
     const response = await axios.get(`${apiHost}/tracks`);
