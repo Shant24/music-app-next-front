@@ -10,7 +10,7 @@ import MainLayout from '../../layouts/MainLayout';
 import StepWrapper from '../../components/StepWrapper';
 import FileUpload from '../../components/FileUpload';
 
-const Create: React.FC<CreateProps> = () => {
+const Create: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [picture, setPicture] = useState<object | null>(null);
   const [audio, setAudio] = useState<object | null>(null);
