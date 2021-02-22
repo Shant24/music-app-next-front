@@ -52,7 +52,7 @@ const TrackProgress: React.FC<TrackProgressProps> = ({
   showProgressTime = true,
   onChange
 }) => {
-  const handleChange = (e: React.ChangeEventHandler<HTMLInputElement>) => {
+  const handleChange = (e: any) => {
     onChange(e.target.value);
   };
 
