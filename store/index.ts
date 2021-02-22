@@ -1,4 +1,4 @@
-import { AnyAction, applyMiddleware, createStore } from 'redux';
+import { AnyAction, applyMiddleware, createStore, Dispatch } from 'redux';
 import { Context, createWrapper, MakeStore } from 'next-redux-wrapper';
 import { reducer, RootState } from './reducers/index';
 
