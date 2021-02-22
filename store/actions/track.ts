@@ -1,4 +1,4 @@
-import { Action, ActionCreator, Dispatch } from 'redux';
+import { AnyAction, Action, ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import axios from 'axios';
 
@@ -8,7 +8,7 @@ import { TrackAction, TrackActionTypes } from '../../types/track';
 const apiHost = process.env.API_HOST;
 
 export const fetchTracks: ActionCreator<
-  ThunkAction<Action, RootState, void>
+  ThunkAction<Action, RootState, void, AnyAction>
 > = () => async (dispatch: Dispatch<TrackAction>): Action => {
   try {
     const response = await axios.get(`${apiHost}/tracks`);
@@ -22,7 +22,7 @@ export const fetchTracks: ActionCreator<
 };
 
 export const searchTracks: ActionCreator<
-  ThunkAction<Action, RootState, void>
+  ThunkAction<Action, RootState, void, AnyAction>
 > = (query: string) => async (dispatch: Dispatch<TrackAction>): Action => {
   try {
     const response = await axios.get(`${apiHost}/tracks/search?query=${query}`);
