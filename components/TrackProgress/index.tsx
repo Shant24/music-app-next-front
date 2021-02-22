@@ -52,18 +52,8 @@ const TrackProgress: React.FC<TrackProgressProps> = ({
   showProgressTime = true,
   onChange,
 }) => {
-  const handleChange = onChange;
-
   return (
     <div className={styles.trackProgressContainer}>
-      {/* <input
-        type="range"
-        min={0}
-        max={right}
-        value={left}
-        onChange={onChange}
-        disabled={disabled}
-      /> */}
       <PrettoSlider
         valueLabelDisplay="auto"
         aria-label="pretto slider"
@@ -71,7 +61,7 @@ const TrackProgress: React.FC<TrackProgressProps> = ({
         min={0}
         max={right}
         value={left}
-        onChange={handleChange}
+        onChange={onChange}
         disabled={disabled}
       />
       {showProgressTime && (
