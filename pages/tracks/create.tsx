@@ -12,8 +12,8 @@ import FileUpload from '../../components/FileUpload';
 
 const Create: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
-  const [picture, setPicture] = useState<Object | null>(null);
-  const [audio, setAudio] = useState<Object | null>(null);
+  const [picture, setPicture] = useState<Object<{ name: string }> | null>(null);
+  const [audio, setAudio] = useState<Object<{ name: string }> | null>(null);
   const name = useInput('');
   const artist = useInput('');
   const text = useInput('');
