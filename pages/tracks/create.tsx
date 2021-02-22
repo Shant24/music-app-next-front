@@ -26,9 +26,9 @@ const Create: React.FC = () => {
     const formData = new FormData();
     formData.append('name', name.value);
     formData.append('artist', artist.value);
-    formData.append('text', text.value);
-    formData.append('picture', picture);
-    formData.append('audio', audio);
+    formData.append('text', text.value || '');
+    formData.append('picture', picture || '');
+    formData.append('audio', audio || '');
 
     axios
       .post(`${process.env.API_HOST}/tracks`, formData)

@@ -14,8 +14,11 @@ process.env.NODE_ENV === 'development' && middlewaresArr.push(logger);
 const middlewares = applyMiddleware(...middlewaresArr);
 
 // create a makeStore function
-const makeStore: MakeStore<RootState> = (context: Context) =>
-  createStore(reducer, composeWithDevTools(middlewares));
+const makeStore: MakeStore<RootState> = (context: Context) => {
+  return process.env.NODE_ENV === 'development'
+    ? createStore(reducer, composeWithDevTools(middlewares))
+    : createStore(reducer, middlewares);
+};
 
 // export an assembled wrapper
 export const wrapper = createWrapper<RootState>(makeStore, { debug: true });
