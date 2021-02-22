@@ -9,7 +9,7 @@ const apiHost = process.env.API_HOST;
 
 export const fetchTracks: ActionCreator<
   ThunkAction<Action, RootState, void, AnyAction>
-> = () => async (dispatch: Dispatch<TrackAction>): any => {
+> = () => async (dispatch: Dispatch<TrackAction>): Promise<Action> => {
   try {
     const response = await axios.get(`${apiHost}/tracks`);
     dispatch({ type: TrackActionTypes.FETCH_TRACKS, payload: response.data });
@@ -23,7 +23,9 @@ export const fetchTracks: ActionCreator<
 
 export const searchTracks: ActionCreator<
   ThunkAction<Action, RootState, void, AnyAction>
-> = (query: string) => async (dispatch: Dispatch<TrackAction>): any => {
+> = (query: string) => async (
+  dispatch: Dispatch<TrackAction>
+): Promise<Action> => {
   try {
     const response = await axios.get(`${apiHost}/tracks/search?query=${query}`);
     dispatch({ type: TrackActionTypes.FETCH_TRACKS, payload: response.data });
