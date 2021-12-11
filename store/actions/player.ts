@@ -1,6 +1,6 @@
 import { Action, ActionCreator } from 'redux';
-import { PlayerAction, PlayerActionTypes } from './../../types/player';
-import { ITrack } from './../../types/track';
+import { PlayerAction, PlayerActionTypes } from '../../types/player';
+import { ITrack } from '../../types/track';
 
 export const playTrack: ActionCreator<Action> = (): PlayerAction => ({
   type: PlayerActionTypes.PLAY

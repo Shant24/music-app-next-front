@@ -15,7 +15,9 @@
   "rules": {
     "react/react-in-jsx-scope": "off"
   },
-  "globals": { "React": "writable" },
+  "globals": {
+    "React": "writable"
+  },
   "env": {
     "browser": true,
     "commonjs": true,
@@ -34,5 +36,10 @@
       "version": "detect"
     }
   },
-  "plugins": ["@typescript-eslint", "react/recommended", "react"]
+  "plugins": [
+    "@typescript-eslint",
+    "react/recommended",
+    "react",
+    "eslint-plugin-import"
+  ]
 }

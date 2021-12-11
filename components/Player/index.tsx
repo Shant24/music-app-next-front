@@ -1,27 +1,16 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect } from 'react';
 import { Grid, IconButton } from '@material-ui/core';
 import { Pause, PlayArrow, VolumeUp } from '@material-ui/icons';
-import { useTypedSelector, useAction } from '../../hooks';
+import { useAction, useTypedSelector } from '../../hooks';
 
 import styles from './styles.module.scss';
 import TrackProgress from '../TrackProgress';
-import { GetServerSideProps } from 'next';
 
 let audio;
 
-const Player: React.FC = () => {
-  const [left, setLeft] = useState<number>(0);
-  const { pause, active, volume, duration, currentTime } = useTypedSelector(
-    (state) => state.player
-  );
-  const {
-    playTrack,
-    pauseTrack,
-    setCurrentTime,
-    setActiveTrack,
-    setDuration,
-    setVolume,
-  } = useAction();
+const Player = () => {
+  const { pause, active, volume, duration, currentTime } = useTypedSelector((state) => state.player);
+  const { playTrack, pauseTrack, setCurrentTime, setDuration, setVolume } = useAction();
 
   useEffect(() => {
     if (!audio) {
@@ -61,14 +50,14 @@ const Player: React.FC = () => {
     }
   };
 
-  const handleChangeVolume = (value: string) => {
-    audio.volume = Number(value) / 100;
-    setVolume(Number(value));
+  const handleChangeVolume = (value: number) => {
+    audio.volume = value / 100;
+    setVolume(value);
   };
 
-  const handleChangeCurrentTime = (value: string) => {
-    audio.currentTime = Number(value);
-    setCurrentTime(Number(value));
+  const handleChangeCurrentTime = (value: number) => {
+    audio.currentTime = value;
+    setCurrentTime(value);
   };
 
   return (
@@ -87,7 +76,9 @@ const Player: React.FC = () => {
         right={duration}
         onChange={handleChangeCurrentTime}
       />
+
       <VolumeUp className={styles.volumeUpButton} />
+
       <TrackProgress
         left={volume}
         right={100}

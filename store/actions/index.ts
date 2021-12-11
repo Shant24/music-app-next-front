@@ -1,3 +1,1 @@
-import * as PlayerActionCreators from './player';
-
-export default { ...PlayerActionCreators };
+export * from './player';

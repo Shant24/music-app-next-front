@@ -1,14 +1,14 @@
 import React, { memo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
 import { Box, Button, Card, Grid, TextField } from '@material-ui/core';
-import { useTypedSelector } from '../../hooks';
 
-import MainLayout from '../../layouts/MainLayout';
-import { ITrack } from '../../types/track';
-import TrackList from '../../components/TrackList';
+import { useTypedSelector } from '../../hooks';
 import { NextThunkDispatch, wrapper } from '../../store';
 import { fetchTracks, searchTracks } from '../../store/actions/track';
+import MainLayout from '../../layouts/MainLayout';
+import TrackList from '../../components/TrackList';
 import styles from '../../styles/TracksPage.module.scss';
 
 const Track: React.FC = () => {
@@ -27,14 +27,16 @@ const Track: React.FC = () => {
     setTimer(
       setTimeout(async () => {
         await dispatch(await searchTracks(e.target.value));
-      }, 500)
+      }, 500),
     );
   };
 
   if (error) {
-    <MainLayout>
-      <h1>{error}</h1>
-    </MainLayout>;
+    return (
+      <MainLayout>
+        <h1>{error}</h1>
+      </MainLayout>
+    );
   }
 
   return (
@@ -44,7 +46,11 @@ const Track: React.FC = () => {
           <Box m={2}>
             <Card>
               <Box p={2}>
-                <Grid container justifyContent="space-between" width="80vw">
+                <Grid
+                  container
+                  justifyContent="space-between"
+                  style={{ width: '80vw' }}
+                >
                   <h1>List of tracks</h1>
                   <Link href="/tracks/create">
                     <Button>Upload</Button>
@@ -72,9 +78,9 @@ const Track: React.FC = () => {
 
 export default memo(Track);
 
-export const getServerSideProps = wrapper.getServerSideProps(
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
   async ({ store }) => {
     const dispatch = store.dispatch as NextThunkDispatch;
     await dispatch(await fetchTracks());
-  }
+  },
 );
