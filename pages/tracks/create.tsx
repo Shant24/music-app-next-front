@@ -1,8 +1,7 @@
 import React, { memo, useState } from 'react';
-import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { Button, Grid, TextField } from '@material-ui/core';
+import { Button, Grid, TextField } from '@mui/material';
 import { useInput } from '../../hooks';
 
 import styles from '../../styles/CreateTrack.module.scss';
@@ -32,7 +31,7 @@ const Create: React.FC = () => {
 
     axios
       .post(`${process.env.API_HOST}/tracks`, formData)
-      .then((response) => router.push('/tracks'))
+      .then(() => router.push('/tracks'))
       .catch((err) => console.log(err));
   };
 

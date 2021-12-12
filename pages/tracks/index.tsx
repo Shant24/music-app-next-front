@@ -2,11 +2,11 @@ import React, { memo, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useDispatch } from 'react-redux';
-import { Box, Button, Card, Grid, TextField } from '@material-ui/core';
+import { Box, Button, Card, Grid, TextField } from '@mui/material';
 
 import { useTypedSelector } from '../../hooks';
 import { NextThunkDispatch, wrapper } from '../../store';
-import { fetchTracks, searchTracks } from '../../store/actions/track';
+import { fetchTracks, searchTracks } from '../../store/actions';
 import MainLayout from '../../layouts/MainLayout';
 import TrackList from '../../components/TrackList';
 import styles from '../../styles/TracksPage.module.scss';

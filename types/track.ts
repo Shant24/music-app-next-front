@@ -1,3 +1,5 @@
+import { IHydrate } from './index';
+
 export interface IComment {
   _id: string;
   username: string;
@@ -23,6 +25,7 @@ export interface TrackState {
 export enum TrackActionTypes {
   FETCH_TRACKS = 'FETCH_TRACKS',
   FETCH_TRACKS_ERROR = 'FETCH_TRACKS_ERROR',
+  REMOVE_TRACK = 'REMOVE_TRACK',
 }
 
 interface FetchTracksAction {
@@ -35,4 +38,9 @@ interface FetchTracksErrorAction {
   payload: string;
 }
 
-export type TrackAction = FetchTracksAction | FetchTracksErrorAction;
+interface RemoveTrackAction {
+  type: TrackActionTypes.REMOVE_TRACK;
+  payload: string;
+}
+
+export type TrackAction = IHydrate | FetchTracksAction | FetchTracksErrorAction | RemoveTrackAction;

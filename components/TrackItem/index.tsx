@@ -1,25 +1,29 @@
-import React, { memo } from 'react';
-import { GetServerSideProps } from 'next';
+import React, { memo, MouseEvent } from 'react';
 import Link from 'next/link';
-import { Card, Grid, IconButton } from '@material-ui/core';
-import { Delete, Pause, PlayArrow } from '@material-ui/icons';
+import { Card, Grid, IconButton } from '@mui/material';
+import { Delete, Pause, PlayArrow } from '@mui/icons-material';
 
 import { ITrack } from '../../types/track';
+import { useAction } from '../../hooks';
 import styles from './styles.module.scss';
-import { useAction, useTypedSelector } from '../../hooks';
 
 interface TrackItemProps {
   track: ITrack;
   active?: boolean;
 }
 
-const TrackItem: React.FC<TrackItemProps> = ({ track, active = false }) => {
-  const { playTrack, pauseTrack, setActiveTrack } = useAction();
+const TrackItem = ({ track, active = false }: TrackItemProps) => {
+  const { playTrack, setActiveTrack, removeTrack } = useAction();
 
-  const handlePlay = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePlay = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     setActiveTrack(track);
     playTrack();
+  };
+
+  const handleRemove = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    removeTrack(track._id);
   };
 
   return (
@@ -44,10 +48,7 @@ const TrackItem: React.FC<TrackItemProps> = ({ track, active = false }) => {
 
         {active && <div className={styles.trackTime}>02:42 / 03:22</div>}
 
-        <IconButton
-          className={styles.trackDeleteBtn}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <IconButton className={styles.trackDeleteBtn} onClick={handleRemove}>
           <Delete />
         </IconButton>
       </Card>

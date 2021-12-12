@@ -1,26 +1,21 @@
-import { AnyAction, applyMiddleware, createStore, Dispatch } from 'redux';
-import { Context, createWrapper, MakeStore } from 'next-redux-wrapper';
-import { reducer, RootState } from './reducers/index';
-
-// Middlewares
+import { AnyAction, applyMiddleware, createStore } from 'redux';
+import { createWrapper, MakeStore } from 'next-redux-wrapper';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import thunk, { ThunkDispatch } from 'redux-thunk';
 import logger from 'redux-logger';
-import thunk, { ThunkDispatch, ThunkAction } from 'redux-thunk';
-// import createSagaMiddleware from 'redux-saga';
+import { reducer, RootState } from './reducers';
 
 const middlewaresArr = [thunk];
 process.env.NODE_ENV === 'development' && middlewaresArr.push(logger);
 
 const middlewares = applyMiddleware(...middlewaresArr);
 
-// create a makeStore function
-const makeStore: MakeStore<RootState> = (context: Context) => {
+const makeStore: MakeStore<RootState> = () => {
   return process.env.NODE_ENV === 'development'
     ? createStore(reducer, composeWithDevTools(middlewares))
     : createStore(reducer, middlewares);
 };
 
-// export an assembled wrapper
 export const wrapper = createWrapper<RootState>(makeStore, { debug: true });
 
 export type NextThunkDispatch = ThunkDispatch<RootState, void, AnyAction>;

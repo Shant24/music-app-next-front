@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import axios from 'axios';
-import { Box, Button, Grid, TextField } from '@material-ui/core';
+import { Box, Button, Grid, TextField } from '@mui/material';
 import { useInput } from '../../hooks';
 
 import { ITrack } from '../../types/track';
@@ -16,7 +16,7 @@ interface TrackPageProps {
 }
 
 const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
-  const history = useRouter();
+  const router = useRouter();
   const [track, setTrack] = useState<ITrack>(serverTrack);
   const username = useInput('');
   const text = useInput('');
@@ -32,19 +32,22 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
         {
           username: username.value,
           text: text.value,
-          trackId: track._id
-        }
+          trackId: track._id,
+        },
       );
       setTrack({ ...track, comments: [...track.comments, response.data] });
     } catch (err) {
       console.log(err);
+      router.back();
     }
   };
 
   if (!track) {
-    <MainLayout>
-      <>Loading...</>
-    </MainLayout>;
+    return (
+      <MainLayout>
+        <>Loading...</>
+      </MainLayout>
+    );
   }
 
   return (
@@ -53,7 +56,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
       keywords={`${track.name}, ${track.artist}, ${
         track.text
       }, ${wordsForKeyWord(track.name)}, ${wordsForKeyWord(
-        track.artist
+        track.artist,
       )}, ${wordsForKeyWord(track.text)}`}
     >
       <Box p={2}>
@@ -80,7 +83,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
 
         <div className={styles.trackTextContainer}>
           <h1>Text of the Track</h1>
-          <p>{track.text}</p>
+          <pre>{track.text}</pre>
         </div>
 
         <div className={styles.commentsBlok}>
@@ -121,13 +124,17 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
 export default memo(TrackPage);
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const response = await axios.get(
-    `${process.env.API_HOST}/tracks/${params.id}`
-  );
+  const response = await axios.get(`${process.env.API_HOST}/tracks/${params.id}`);
+
+  if (!response.data) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {
-      serverTrack: response.data
-    }
+      serverTrack: response.data,
+    },
   };
 };

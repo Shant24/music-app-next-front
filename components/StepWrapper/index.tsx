@@ -1,12 +1,5 @@
 import React, { memo } from 'react';
-import {
-  Card,
-  Container,
-  Grid,
-  Step,
-  StepLabel,
-  Stepper
-} from '@material-ui/core';
+import { Card, Container, Grid, Step, StepLabel, Stepper } from '@mui/material';
 
 import styles from './styles.module.scss';
 

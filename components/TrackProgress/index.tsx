@@ -1,8 +1,10 @@
 import React, { memo } from 'react';
 import styles from './styles.module.scss';
-import { Slider, withStyles } from '@material-ui/core';
+import { Slider } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { formatTime } from '../../helpers/timeHelper';
 
-const PrettoSlider = withStyles({
+const useStyles = makeStyles({
   root: {
     width: '200px',
     color: '#3F51B5',
@@ -13,15 +15,11 @@ const PrettoSlider = withStyles({
     width: 24,
     backgroundColor: '#fff',
     border: '2px solid currentColor',
-    marginTop: -8,
-    marginLeft: -12,
+    marginTop: 0,
+    marginLeft: -2,
     '&:focus, &:hover, &$active': {
       boxShadow: 'inherit',
     },
-  },
-  active: {},
-  valueLabel: {
-    left: 'calc(-50% + 4px)',
   },
   track: {
     height: 8,
@@ -35,7 +33,7 @@ const PrettoSlider = withStyles({
     height: 24,
     width: 24,
   },
-})(Slider);
+});
 
 interface TrackProgressProps {
   left: number;
@@ -46,17 +44,13 @@ interface TrackProgressProps {
 }
 
 const TrackProgress = (props: TrackProgressProps) => {
-  const {
-    left = 0,
-    right = 0,
-    disabled = false,
-    showProgressTime = true,
-    onChange,
-  } = props;
+  const { left = 0, right = 0, disabled = false, showProgressTime = false, onChange } = props;
+  const classes = useStyles();
 
   return (
     <div className={styles.trackProgressContainer}>
-      <PrettoSlider
+      <Slider
+        classes={classes}
         valueLabelDisplay="auto"
         aria-label="pretto slider"
         defaultValue={left}
@@ -68,7 +62,7 @@ const TrackProgress = (props: TrackProgressProps) => {
       />
       {showProgressTime && (
         <div className={styles.progressTime}>
-          {left} / {right}
+          {formatTime(left)} / {formatTime(right)}
         </div>
       )}
     </div>

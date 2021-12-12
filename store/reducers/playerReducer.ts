@@ -1,8 +1,5 @@
-import {
-  PlayerState,
-  PlayerAction,
-  PlayerActionTypes,
-} from './../../types/player';
+import { PlayerAction, PlayerActionTypes, PlayerState } from '../../types/player';
+import { HYDRATE } from 'next-redux-wrapper';
 
 const initialState: PlayerState = {
   active: null,
@@ -12,11 +9,14 @@ const initialState: PlayerState = {
   currentTime: 0,
 };
 
-export const playerReducer = (
-  state = initialState,
-  action: PlayerAction
-): PlayerState => {
+export const playerReducer = (state = initialState, action: PlayerAction): PlayerState => {
   switch (action.type) {
+    case HYDRATE:
+      return {
+        ...state,
+        ...action.payload.player,
+      }
+
     case PlayerActionTypes.PLAY:
       return { ...state, pause: false };
 

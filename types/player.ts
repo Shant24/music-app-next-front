@@ -1,4 +1,5 @@
 import { ITrack } from './track';
+import { IHydrate } from './index';
 
 export interface PlayerState {
   active: null | ITrack;
@@ -15,6 +16,7 @@ export enum PlayerActionTypes {
   SET_DURATION = 'SET_DURATION',
   SET_CURRENT_TIME = 'SET_CURRENT_TIME',
   SET_VOLUME = 'SET_VOLUME',
+  SET_DEFAULT_DATA = 'SET_DEFAULT_DATA',
 }
 
 interface PlayAction {
@@ -45,10 +47,16 @@ interface SetCurrentTimeAction {
   payload: number;
 }
 
+interface SetDefaultDataAction {
+  type: PlayerActionTypes.SET_DEFAULT_DATA;
+}
+
 export type PlayerAction =
+  IHydrate
   | PlayAction
   | PauseAction
   | SetActiveAction
   | SetDurationAction
   | SetVolumeAction
-  | SetCurrentTimeAction;
+  | SetCurrentTimeAction
+  | SetDefaultDataAction;

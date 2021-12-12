@@ -1,19 +1,15 @@
-import React, { memo } from 'react';
-import { Button } from '@material-ui/core';
+import React from 'react';
 
-import styles from '../styles/Index.module.scss';
-import Header from '../components/Header';
 import MainLayout from '../layouts/MainLayout';
+import styles from '../styles/Index.module.scss';
 
-const Index: React.FC = () => {
-  return (
-    <MainLayout>
-      <div className={styles.center}>
-        <h1>Добро пожаловать!</h1>
-        <h3>Здесь собраны лучшие треки!</h3>
-      </div>
-    </MainLayout>
-  );
-};
+const Home = () => (
+  <MainLayout>
+    <div className={styles.center}>
+      <h1>Welcome!</h1>
+      <h3>Here are the best tracks!</h3>
+    </div>
+  </MainLayout>
+);
 
-export default memo(Index);
+export default Home;

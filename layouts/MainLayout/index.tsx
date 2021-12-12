@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { memo, useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 
 import Header from '../../components/Header';
-import Player from '../../components/Player';
-import { useTypedSelector } from '../../hooks';
 
 interface MainLayoutProps {
   title?: string;
@@ -12,17 +10,9 @@ interface MainLayoutProps {
   children?: React.ReactChild | React.ReactChild[];
 }
 
-const MainLayout: React.FC<MainLayoutProps> = ({
-  children,
-  title,
-  description,
-  keywords
-}) => {
-  const [windowHeight, setWindowHeight] = useState<number>(0);
-
-  const { active } = useTypedSelector((state) => state.player);
-
+const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description, keywords }) => {
   const mainRef = useRef(null);
+  const [windowHeight, setWindowHeight] = useState<number>(0);
 
   const windowResize = () => setWindowHeight(window.innerHeight);
 
@@ -34,7 +24,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 
   useEffect(() => {
     mainRef &&
-      (mainRef.current.parentNode.style.minHeight = `${windowHeight}px`);
+    (mainRef.current.parentNode.style.minHeight = `${windowHeight}px`);
   }, [windowHeight]);
 
   return (
@@ -60,10 +50,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       <Header />
 
       <main ref={mainRef}>{children}</main>
-
-      {active && <Player />}
     </>
   );
 };
 
-export default MainLayout;
+export default memo(MainLayout);
