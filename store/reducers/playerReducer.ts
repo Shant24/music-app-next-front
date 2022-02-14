@@ -12,10 +12,7 @@ const initialState: PlayerState = {
 export const playerReducer = (state = initialState, action: PlayerAction): PlayerState => {
   switch (action.type) {
     case HYDRATE:
-      return {
-        ...state,
-        ...action.payload.player,
-      }
+      return state;
 
     case PlayerActionTypes.PLAY:
       return { ...state, pause: false };

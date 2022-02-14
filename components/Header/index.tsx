@@ -21,7 +21,6 @@ import MailIcon from '@mui/icons-material/Mail';
 const menuItems = [
   { text: 'Home', href: '/' },
   { text: 'Tracks', href: '/tracks' },
-  // { text: 'Albums', href: '/albums' },
 ];
 
 const Header: React.FC = () => {
@@ -68,7 +67,7 @@ const Header: React.FC = () => {
         <Divider />
         <List>
           {menuItems.map(({ text, href }, index) => (
-            <Link href={href} key={href}>
+            <Link href={href} key={href} passHref>
               <ListItem button>
                 <ListItemIcon>
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}

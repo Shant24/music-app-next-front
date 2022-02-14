@@ -30,7 +30,7 @@ const Create: React.FC = () => {
     formData.append('audio', audio || '');
 
     axios
-      .post(`${process.env.API_HOST}/tracks`, formData)
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/tracks`, formData)
       .then(() => router.push('/tracks'))
       .catch((err) => console.log(err));
   };

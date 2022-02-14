@@ -1,25 +1,25 @@
-import React, { memo, useRef } from 'react';
+import React, { ChangeEvent, memo, ReactChild, useRef } from 'react';
 import styles from './styles.module.scss';
 
 interface FileUploadProps {
   setFile: Function;
   accept: string;
-  children?: React.ReactChild | React.ReactChild[];
+  children?: ReactChild | ReactChild[];
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({
-  setFile,
-  accept,
-  children
-}) => {
+const FileUpload: React.FC<FileUploadProps> = ({ setFile, accept, children }) => {
   const defaultInputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files[0]);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFile(e.target.files?.[0]);
   };
 
+  const handleClick = () => {
+    defaultInputRef.current?.click();
+  }
+
   return (
-    <div onClick={() => defaultInputRef.current.click()}>
+    <div onClick={handleClick}>
       <input
         ref={defaultInputRef}
         type="file"

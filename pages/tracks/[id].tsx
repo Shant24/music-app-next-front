@@ -28,7 +28,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
     formData.append('trackId', track._id);
     try {
       const response = await axios.post(
-        `${process.env.API_HOST}/tracks/comment`,
+        `${process.env.NEXT_PUBLIC_API_URL}/tracks/comment`,
         {
           username: username.value,
           text: text.value,
@@ -60,7 +60,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
       )}, ${wordsForKeyWord(track.text)}`}
     >
       <Box p={2}>
-        <Link href="/tracks">
+        <Link href="/tracks" passHref>
           <Button className={styles.backButton} variant="contained">
             Track list page
           </Button>
@@ -69,7 +69,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
         <Grid container className={styles.trackInfoContainer}>
           <div className={styles.TrackImageWrapper}>
             <img
-              src={`${process.env.API_HOST}/${track.picture}`}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/${track.picture}`}
               alt={`${track.name}-photo`}
             />
           </div>
@@ -124,7 +124,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
 export default memo(TrackPage);
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-  const response = await axios.get(`${process.env.API_HOST}/tracks/${params.id}`);
+  const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tracks/${params?.id || ''}`);
 
   if (!response.data) {
     return {

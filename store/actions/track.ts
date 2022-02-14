@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 
 import { TrackAction, TrackActionTypes } from '../../types/track';
 
-const apiHost = process.env.API_HOST;
+const apiHost = process.env.NEXT_PUBLIC_API_URL;
 
 export const fetchTracks = () => async (dispatch: Dispatch<TrackAction>) => {
   try {

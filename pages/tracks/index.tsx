@@ -14,7 +14,7 @@ import styles from '../../styles/TracksPage.module.scss';
 const Track: React.FC = () => {
   const { tracks, error } = useTypedSelector((state) => state.track);
   const [query, setQuery] = useState<string>('');
-  const [timer, setTimer] = useState(null);
+  const [timer, setTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const dispatch = useDispatch() as NextThunkDispatch;
 
@@ -52,7 +52,7 @@ const Track: React.FC = () => {
                   style={{ width: '80vw' }}
                 >
                   <h1>List of tracks</h1>
-                  <Link href="/tracks/create">
+                  <Link href="/tracks/create" passHref>
                     <Button>Upload</Button>
                   </Link>
                 </Grid>
@@ -78,9 +78,9 @@ const Track: React.FC = () => {
 
 export default memo(Track);
 
-export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps(
-  async ({ store }) => {
-    const dispatch = store.dispatch as NextThunkDispatch;
-    await dispatch(await fetchTracks());
-  },
-);
+export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async () => {
+  const dispatch = store.dispatch as NextThunkDispatch;
+  await dispatch(await fetchTracks());
+
+  return { props: {} };
+});

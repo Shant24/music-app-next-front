@@ -27,7 +27,7 @@ const TrackItem = ({ track, active = false }: TrackItemProps) => {
   };
 
   return (
-    <Link href={`/tracks/${track._id}`}>
+    <Link href={`/tracks/${track._id}`} passHref>
       <Card className={styles.track}>
         <IconButton onClick={handlePlay}>
           {active ? <Pause /> : <PlayArrow />}
@@ -36,7 +36,7 @@ const TrackItem = ({ track, active = false }: TrackItemProps) => {
         <div className={styles.photoWrapper}>
           <img
             className={styles.photo}
-            src={`${process.env.API_HOST}/${track.picture}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}/${track.picture}`}
             alt={`${track.name}-photo`}
           />
         </div>

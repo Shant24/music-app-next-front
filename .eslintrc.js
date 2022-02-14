@@ -8,6 +8,7 @@ module.exports = {
     node: true,
   },
   extends: [
+    'next/core-web-vitals',
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
@@ -41,6 +42,12 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
+    '@next/next/no-img-element': 0,
+    '@typescript-eslint/no-var-requires': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
+    '@typescript-eslint/ban-types': 0,
     'max-len': [2, 120, 2],
     'react/react-in-jsx-scope': 0,
     'jsx-a11y/img-redundant-alt': 0,

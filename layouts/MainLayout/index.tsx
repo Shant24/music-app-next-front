@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 import Head from 'next/head';
 
 import Header from '../../components/Header';
@@ -11,21 +11,20 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, title, description, keywords }) => {
-  const mainRef = useRef(null);
-  const [windowHeight, setWindowHeight] = useState<number>(0);
-
-  const windowResize = () => setWindowHeight(window.innerHeight);
+  const mainRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const windowResize = () => {
+      document.body.setAttribute('style', `--vh: ${window.innerHeight}px`);
+    };
+
     windowResize();
     window.addEventListener('resize', windowResize);
-    return window.removeEventListener('resize', windowResize);
-  }, []);
 
-  useEffect(() => {
-    mainRef &&
-    (mainRef.current.parentNode.style.minHeight = `${windowHeight}px`);
-  }, [windowHeight]);
+    return () => {
+      window.removeEventListener('resize', windowResize);
+    };
+  }, []);
 
   return (
     <>

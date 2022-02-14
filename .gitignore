@@ -40,3 +40,6 @@ package-lock.json
 
 .vscode/snipsnap.code-snippets
 .idea
+
+# typescript
+*.tsbuildinfo

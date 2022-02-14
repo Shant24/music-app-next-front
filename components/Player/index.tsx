@@ -14,9 +14,11 @@ const Player = () => {
 
   useEffect(() => {
     if (active) {
+      // @ts-ignore
       audioRef.current = new Audio();
     } else {
       pauseTrack();
+      // @ts-ignore
       audioRef.current = null;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,11 +38,11 @@ const Player = () => {
     };
 
     if (active && audioRef.current) {
-      audioRef.current.src = `${process.env.API_HOST}/${active.audio}`;
+      audioRef.current.src = `${process.env.NEXT_PUBLIC_API_URL}/${active.audio}`;
       audioRef.current.volume = volume / 100;
       audioRef.current.addEventListener('loadedmetadata', loadedMetadata);
       audioRef.current.addEventListener('timeupdate', timeUpdate);
-      playTrack()
+      playTrack();
       audioRef.current.play();
     }
 
@@ -60,20 +62,24 @@ const Player = () => {
   const handlePlay = async () => {
     if (pause) {
       playTrack();
-      await audioRef.current.play();
+      await audioRef.current?.play();
     } else {
       pauseTrack();
-      audioRef.current.pause();
+      audioRef.current?.pause();
     }
   };
 
   const handleChangeVolume = (value: number) => {
-    audioRef.current.volume = value / 100;
+    if (audioRef.current) {
+      audioRef.current.volume = value / 100;
+    }
     setVolume(value);
   };
 
   const handleChangeCurrentTime = (value: number) => {
-    audioRef.current.currentTime = value;
+    if (audioRef.current) {
+      audioRef.current.currentTime = value;
+    }
     setCurrentTime(value);
   };
 
