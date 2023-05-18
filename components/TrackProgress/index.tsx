@@ -57,6 +57,7 @@ const TrackProgress = (props: TrackProgressProps) => {
         valueLabelDisplay="auto"
         aria-label="pretto slider"
         defaultValue={left}
+        valueLabelFormat={showProgressTime ? formatTime : undefined}
         min={0}
         max={right}
         value={left}
