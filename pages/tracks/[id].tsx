@@ -6,10 +6,10 @@ import axios from 'axios';
 import { Box, Button, Grid, TextField } from '@mui/material';
 import { useInput } from '../../hooks';
 
-import { ITrack } from '../../types/track';
+import type { ITrack } from '../../types/track';
+import { getStaticFilePath, wordsForKeyWord } from '../../helpers';
 import MainLayout from '../../layouts/MainLayout';
 import styles from '../../styles/TrackPage.module.scss';
-import { wordsForKeyWord } from '../../helpers/stringHelper';
 
 interface TrackPageProps {
   serverTrack: ITrack;
@@ -27,17 +27,14 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
     formData.append('text', text.value);
     formData.append('trackId', track._id);
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/tracks/comment`,
-        {
-          username: username.value,
-          text: text.value,
-          trackId: track._id,
-        },
-      );
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/tracks/comment`, {
+        username: username.value,
+        text: text.value,
+        trackId: track._id,
+      });
       setTrack({ ...track, comments: [...track.comments, response.data] });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       router.back();
     }
   };
@@ -53,9 +50,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
   return (
     <MainLayout
       title={`${track.artist} - ${track.name} - Music App`}
-      keywords={`${track.name}, ${track.artist}, ${
-        track.text
-      }, ${wordsForKeyWord(track.name)}, ${wordsForKeyWord(
+      keywords={`${track.name}, ${track.artist}, ${track.text}, ${wordsForKeyWord(track.name)}, ${wordsForKeyWord(
         track.artist,
       )}, ${wordsForKeyWord(track.text)}`}
     >
@@ -68,10 +63,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
 
         <Grid container className={styles.trackInfoContainer}>
           <div className={styles.TrackImageWrapper}>
-            <img
-              src={`${process.env.NEXT_PUBLIC_API_URL}/${track.picture}`}
-              alt={`${track.name}-photo`}
-            />
+            <img src={getStaticFilePath(track.picture)} alt={`${track.name}-photo`} />
           </div>
 
           <div className={styles.trackNameContainer}>
@@ -89,11 +81,7 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
         <div className={styles.commentsBlok}>
           <h1>Comments</h1>
 
-          <Grid
-            container
-            className={styles.newCommentContainer}
-            direction="column"
-          >
+          <Grid container className={styles.newCommentContainer} direction="column">
             <TextField label="Your name" fullWidth {...username} />
             <TextField label="Comment" fullWidth multiline rows={4} {...text} />
             <Button variant="contained" onClick={handleSendComment}>
@@ -105,12 +93,8 @@ const TrackPage: React.FC<TrackPageProps> = ({ serverTrack }) => {
             <div className={styles.commentsContainer}>
               {track.comments.map((comment) => (
                 <div key={comment._id} className={styles.comment}>
-                  <div className={styles.commentUsername}>
-                    Author - {comment.username}
-                  </div>
-                  <div className={styles.commentText}>
-                    Comment - {comment.text}
-                  </div>
+                  <div className={styles.commentUsername}>Author - {comment.username}</div>
+                  <div className={styles.commentText}>Comment - {comment.text}</div>
                 </div>
               ))}
             </div>

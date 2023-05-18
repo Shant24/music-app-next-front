@@ -5,7 +5,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import logger from 'redux-logger';
 import { rootReducer, RootState } from './reducers';
 
-const middlewaresArr:  Middleware<{}, any, Dispatch<AnyAction>>[] = [thunk];
+const middlewaresArr: Middleware<{}, any, Dispatch<AnyAction>>[] = [thunk];
 
 if (process.env.NODE_ENV === 'development') {
   middlewaresArr.push(logger);
@@ -22,3 +22,5 @@ const makeStore = () => {
 export const wrapper = createWrapper<Store<RootState, AnyAction>>(makeStore, { debug: true });
 
 export type NextThunkDispatch = ThunkDispatch<RootState, void, AnyAction>;
+
+export type { RootState };

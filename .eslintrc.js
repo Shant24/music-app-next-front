@@ -18,7 +18,7 @@ module.exports = {
     'plugin:react-hooks/recommended',
   ],
   globals: {
-    'React': 'writable',
+    React: 'writable',
   },
   parserOptions: {
     ecmaFeatures: {
@@ -37,11 +37,9 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    'react',
-    '@typescript-eslint',
-  ],
+  plugins: ['react', '@typescript-eslint'],
   rules: {
+    '@typescript-eslint/no-non-null-assertion': 0,
     '@next/next/no-img-element': 0,
     '@typescript-eslint/no-var-requires': 0,
     'jsx-a11y/click-events-have-key-events': 0,

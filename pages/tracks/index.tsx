@@ -46,11 +46,7 @@ const Track: React.FC = () => {
           <Box m={2}>
             <Card>
               <Box p={2}>
-                <Grid
-                  container
-                  justifyContent="space-between"
-                  style={{ width: '80vw' }}
-                >
+                <Grid container justifyContent="space-between" style={{ width: '80vw' }}>
                   <h1>List of tracks</h1>
                   <Link href="/tracks/create" passHref>
                     <Button>Upload</Button>
@@ -59,12 +55,7 @@ const Track: React.FC = () => {
               </Box>
 
               <Grid container className={styles.searchContainer}>
-                <TextField
-                  label="Search"
-                  fullWidth
-                  value={query}
-                  onChange={handleSearch}
-                />
+                <TextField label="Search" fullWidth value={query} onChange={handleSearch} />
               </Grid>
 
               <TrackList tracks={tracks} />
@@ -80,7 +71,17 @@ export default memo(Track);
 
 export const getServerSideProps: GetServerSideProps = wrapper.getServerSideProps((store) => async () => {
   const dispatch = store.dispatch as NextThunkDispatch;
-  await dispatch(await fetchTracks());
+
+  let tracks: any = [];
+
+  try {
+    tracks = await fetchTracks();
+  } catch (error: any) {
+    console.log('error', error);
+    console.log('error.message', error.message);
+  }
+
+  await dispatch(tracks);
 
   return { props: {} };
 });

@@ -1,119 +1,71 @@
-import React, { memo, useEffect, useRef } from 'react';
-import { Grid, IconButton } from '@mui/material';
+import React, { useCallback } from 'react';
+import { Box, Grid, IconButton } from '@mui/material';
 import { Pause, PlayArrow, VolumeUp } from '@mui/icons-material';
 import { createPortal } from 'react-dom';
 
-import { useAction, useTypedSelector } from '../../hooks';
+import { getStaticFilePath } from '../../helpers';
+import { usePlayerContext } from '../../context/Player';
 import TrackProgress from '../TrackProgress';
 import styles from './styles.module.scss';
 
 const Player = () => {
-  const audioRef = useRef<HTMLAudioElement>(null);
-  const { pause, active, volume, duration, currentTime } = useTypedSelector((state) => state.player);
-  const { playTrack, pauseTrack, setCurrentTime, setDuration, setVolume, setTrackDefaultData } = useAction();
+  const { audioRef, activeTrack, isPlaying, volume, duration, currentTime, toggleTrack, setVolume, setCurrentTime } =
+    usePlayerContext();
 
-  useEffect(() => {
-    if (active) {
-      // @ts-ignore
-      audioRef.current = new Audio();
-    } else {
-      pauseTrack();
-      // @ts-ignore
-      audioRef.current = null;
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active]);
-
-  useEffect(() => {
-    const loadedMetadata = () => {
+  const handleChangeVolume = useCallback(
+    (value: number) => {
       if (audioRef.current) {
-        setDuration(Math.ceil(audioRef.current.duration));
+        audioRef.current.volume = value / 100;
       }
-    };
+      setVolume(value);
+    },
+    [audioRef, setVolume],
+  );
 
-    const timeUpdate = () => {
+  const handleChangeCurrentTime = useCallback(
+    (value: number) => {
       if (audioRef.current) {
-        setCurrentTime(Math.ceil(audioRef.current.currentTime));
+        audioRef.current.currentTime = value;
       }
-    };
+      setCurrentTime(value);
+    },
+    [audioRef, setCurrentTime],
+  );
 
-    if (active && audioRef.current) {
-      audioRef.current.src = `${process.env.NEXT_PUBLIC_API_URL}/${active.audio}`;
-      audioRef.current.volume = volume / 100;
-      audioRef.current.addEventListener('loadedmetadata', loadedMetadata);
-      audioRef.current.addEventListener('timeupdate', timeUpdate);
-      playTrack();
-      audioRef.current.play();
-    }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener('loadedmetadata', loadedMetadata);
-        audioRef.current.removeEventListener('timeupdate', timeUpdate);
-        pauseTrack();
-        audioRef.current.pause();
-        audioRef.current.src = '';
-        setTrackDefaultData();
-      }
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active]);
-
-  const handlePlay = async () => {
-    if (pause) {
-      playTrack();
-      await audioRef.current?.play();
-    } else {
-      pauseTrack();
-      audioRef.current?.pause();
-    }
-  };
-
-  const handleChangeVolume = (value: number) => {
-    if (audioRef.current) {
-      audioRef.current.volume = value / 100;
-    }
-    setVolume(value);
-  };
-
-  const handleChangeCurrentTime = (value: number) => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = value;
-    }
-    setCurrentTime(value);
-  };
-
-  if (!active) {
-    return null;
-  }
-
-  return createPortal((
+  return createPortal(
     <div className={styles.playerContainer}>
-      <IconButton onClick={handlePlay}>
-        {pause ? <PlayArrow /> : <Pause />}
-      </IconButton>
+      <IconButton onClick={toggleTrack}>{isPlaying ? <Pause /> : <PlayArrow />}</IconButton>
 
-      <Grid className={styles.trackName} container direction="column">
-        <div>{active?.name}</div>
-        <div>{active?.artist}</div>
+      <Grid className={styles.informationContainer} container direction="row">
+        <Box className={styles.photo}>
+          <img src={getStaticFilePath(activeTrack!.picture)} alt={`${activeTrack?.name}-photo`} />
+        </Box>
+        <Grid className={styles.trackName} direction="column">
+          <div>{activeTrack?.name}</div>
+          <div>{activeTrack?.artist}</div>
+        </Grid>
       </Grid>
 
       <TrackProgress
         left={currentTime}
         right={duration}
         showProgressTime
+        fullWidth
         onChange={handleChangeCurrentTime}
       />
 
       <VolumeUp className={styles.volumeUpButton} />
 
-      <TrackProgress
-        left={volume}
-        right={100}
-        onChange={handleChangeVolume}
-      />
-    </div>
-  ), document.body);
+      <TrackProgress left={volume} right={100} onChange={handleChangeVolume} />
+    </div>,
+    document.body,
+  );
 };
 
-export default memo(Player);
+const PlayerWrapper = () => {
+  const { activeTrack } = usePlayerContext();
+
+  return activeTrack ? <Player /> : null;
+};
+
+export default PlayerWrapper;

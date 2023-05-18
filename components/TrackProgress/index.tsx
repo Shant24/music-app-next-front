@@ -1,14 +1,16 @@
 import React, { memo } from 'react';
-import styles from './styles.module.scss';
+import cls from 'classnames';
 import { Slider } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-import { formatTime } from '../../helpers/timeHelper';
+import { DefaultTheme, makeStyles } from '@mui/styles';
+import { formatTime } from '../../helpers';
+import styles from './styles.module.scss';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles<DefaultTheme, { fullWidth?: boolean }>({
   root: {
     width: '200px',
     color: '#3F51B5',
     height: 8,
+    flex: ({ fullWidth }) => (fullWidth ? 1 : 'unset'),
   },
   thumb: {
     height: 24,
@@ -38,17 +40,18 @@ const useStyles = makeStyles({
 interface TrackProgressProps {
   left: number;
   right: number;
+  fullWidth?: boolean;
   disabled?: boolean;
   showProgressTime?: boolean;
   onChange: (value: number) => void;
 }
 
 const TrackProgress = (props: TrackProgressProps) => {
-  const { left = 0, right = 0, disabled = false, showProgressTime = false, onChange } = props;
-  const classes = useStyles();
+  const { left = 0, right = 0, fullWidth = false, disabled = false, showProgressTime = false, onChange } = props;
+  const classes = useStyles({ fullWidth });
 
   return (
-    <div className={styles.trackProgressContainer}>
+    <div className={cls(styles.trackProgressContainer, { [styles.fullWidth]: fullWidth })}>
       <Slider
         classes={classes}
         valueLabelDisplay="auto"
@@ -62,7 +65,7 @@ const TrackProgress = (props: TrackProgressProps) => {
       />
       {showProgressTime && (
         <div className={styles.progressTime}>
-          {formatTime(left)} / {formatTime(right)}
+          <span>{formatTime(left)}</span>-<span>{formatTime(right)}</span>
         </div>
       )}
     </div>

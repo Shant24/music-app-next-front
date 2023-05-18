@@ -32,18 +32,14 @@ const Create: React.FC = () => {
     axios
       .post(`${process.env.NEXT_PUBLIC_API_URL}/tracks`, formData)
       .then(() => router.push('/tracks'))
-      .catch((err) => console.log(err));
+      .catch((error) => console.log(error));
   };
 
   return (
     <MainLayout title="Upload music - Music App">
       <div className={styles.createTrackContainer}>
         <StepWrapper activeStep={activeStep}>
-          <Grid
-            container
-            direction="column"
-            className={styles.createTrackStepContainer}
-          >
+          <Grid container direction="column" className={styles.createTrackStepContainer}>
             {activeStep === 0 && (
               <>
                 <div className={styles.fieldWrapper}>
@@ -53,12 +49,7 @@ const Create: React.FC = () => {
                   <TextField label="Name of Artist" {...artist} />
                 </div>
                 <div className={styles.fieldWrapper}>
-                  <TextField
-                    label="Text of Track"
-                    multiline
-                    rows={3}
-                    {...text}
-                  />
+                  <TextField label="Text of Track" multiline rows={3} {...text} />
                 </div>
               </>
             )}
@@ -83,16 +74,8 @@ const Create: React.FC = () => {
           </Grid>
         </StepWrapper>
 
-        <Grid
-          className={styles.buttonsContainer}
-          container
-          justifyContent="center"
-        >
-          <Button
-            onClick={handleBack}
-            variant="contained"
-            disabled={activeStep === 0}
-          >
+        <Grid className={styles.buttonsContainer} container justifyContent="center">
+          <Button onClick={handleBack} variant="contained" disabled={activeStep === 0}>
             Back
           </Button>
           {activeStep < 2 ? (

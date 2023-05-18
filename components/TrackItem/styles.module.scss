@@ -4,6 +4,10 @@
   display: flex;
   align-items: center;
 
+  &.activeTrack {
+    background: #efefef;
+  }
+
   .photoWrapper {
     margin-left: 20px;
     width: 70px;
@@ -41,5 +45,10 @@
 
   .trackDeleteBtn {
     margin-left: auto;
+
+    span {
+      width: 50px;
+      text-align: center;
+    }
   }
 }
