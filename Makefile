@@ -1,19 +1,34 @@
 APP_NAME=music-app-next-front
 DOCKERFILE=./Dockerfile
 BUILD_DIR=./
-PORT=7001
+PORT=7001:3000
 NETWORK=apps-network
+NETWORK_DRIVER=bridge
+RESTART_POLICY=always # no, on-failure, on-failure[:max-retries], unless-stopped, always
 
-.PHONY: build run log stop rm-container rm-image clear
+.PHONY: ls create-network build run log stop rm-container rm-image clear rebuild
+
+# Show help
+ls:
+	grep '^[a-zA-Z0-9_-]*:' Makefile
+
+# Check if Docker Network does not exist and create it
+create-network:
+	docker network ls|grep $(NETWORK) > /dev/null \
+		|| docker network create --driver $(NETWORK_DRIVER) $(NETWORK) || true
 
 # Build the Docker image
 build:
-	docker rmi $(APP_NAME) || true
 	docker build -t $(APP_NAME) ${BUILD_DIR} -f $(DOCKERFILE)
 
 # Start a Docker container
 run:
-	docker run -d --name $(APP_NAME) --network $(NETWORK) -p $(PORT):3000 $(APP_NAME)
+	docker run -d \
+		--name $(APP_NAME) \
+		--restart $(RESTART_POLICY) \
+		--network $(NETWORK) \
+		-p $(PORT) \
+		$(APP_NAME)
 
 # Show a Docker logs
 log:
@@ -33,3 +48,6 @@ rm-image:
 
 # Stop, remove container and image
 clear: stop rm-container rm-image
+
+# Stop, remove container, remove image and build again
+rebuild: clear build
